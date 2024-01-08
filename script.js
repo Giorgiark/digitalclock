@@ -14,8 +14,8 @@ let is24Hour = false;
 let backgroundColor = "#FFFFFF";
 let fontColor = "#37352F";
 
-// Load user preferences from localStorage on page load
 document.addEventListener("DOMContentLoaded", function () {
+  // Load user preferences from localStorage on page load
   if (localStorage.getItem("is24Hour") !== null) {
     is24Hour = localStorage.getItem("is24Hour") === "true";
   }
