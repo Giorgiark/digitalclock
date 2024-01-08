@@ -9,9 +9,23 @@ const saveBtn = document.getElementById("save-btn");
 const backgroundColorSelect = document.getElementById("background-color");
 const fontColorSelect = document.getElementById("font-color");
 
+// Default values
 let is24Hour = false;
 let backgroundColor = "#FFFFFF";
 let fontColor = "#37352F";
+
+// Load user preferences from localStorage
+if (localStorage.getItem("is24Hour") !== null) {
+  is24Hour = localStorage.getItem("is24Hour") === "true";
+}
+
+if (localStorage.getItem("backgroundColor") !== null) {
+  backgroundColor = localStorage.getItem("backgroundColor");
+}
+
+if (localStorage.getItem("fontColor") !== null) {
+  fontColor = localStorage.getItem("fontColor");
+}
 
 function updateTime() {
   let date = new Date();
@@ -29,9 +43,7 @@ function updateTime() {
   }
 
   clock.style.color = fontColor;
-  document.body.style.color = fontColor; // Update font color for the body content
-  
-  // Update font color for the buttons
+  document.body.style.color = fontColor;
   switchBtn.style.color = fontColor;
   settingsBtn.style.color = fontColor;
 }
@@ -45,25 +57,32 @@ function closeSettingsModal() {
 }
 
 function saveSettings() {
+  // Update preferences
+  is24Hour = !is24Hour;
+  switchBtn.innerText = is24Hour ? "24" : "12";
   backgroundColor = backgroundColorSelect.value;
   fontColor = fontColorSelect.value;
-  
-  // Update the backgroundColor of the body element
+
+  // Save preferences to localStorage
+  localStorage.setItem("is24Hour", is24Hour);
+  localStorage.setItem("backgroundColor", backgroundColor);
+  localStorage.setItem("fontColor", fontColor);
+
+  // Update styles
   document.body.style.backgroundColor = backgroundColor;
-  
-  // Update the fontColor of the clock element, body content, and buttons
   clock.style.color = fontColor;
   document.body.style.color = fontColor;
   switchBtn.style.color = fontColor;
   settingsBtn.style.color = fontColor;
-  
+
   // Update the time to reflect the changes immediately
   updateTime();
-  
+
   // Close the settings modal
   closeSettingsModal();
 }
 
+// Event listeners
 switchBtn.addEventListener("click", () => {
   is24Hour = !is24Hour;
   switchBtn.innerText = is24Hour ? "24" : "12";
@@ -74,5 +93,5 @@ settingsBtn.addEventListener("click", openSettingsModal);
 closeModalBtn.addEventListener("click", closeSettingsModal);
 saveBtn.addEventListener("click", saveSettings);
 
-// Load user preferences on page load (you can modify this part to load from localStorage, for example)
+// Load user preferences on page load
 updateTime();
