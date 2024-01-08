@@ -14,18 +14,33 @@ let is24Hour = false;
 let backgroundColor = "#FFFFFF";
 let fontColor = "#37352F";
 
-// Load user preferences from localStorage
-if (localStorage.getItem("is24Hour") !== null) {
-  is24Hour = localStorage.getItem("is24Hour") === "true";
-}
+// Load user preferences from localStorage on page load
+document.addEventListener("DOMContentLoaded", function () {
+  if (localStorage.getItem("is24Hour") !== null) {
+    is24Hour = localStorage.getItem("is24Hour") === "true";
+  }
 
-if (localStorage.getItem("backgroundColor") !== null) {
-  backgroundColor = localStorage.getItem("backgroundColor");
-}
+  if (localStorage.getItem("backgroundColor") !== null) {
+    backgroundColor = localStorage.getItem("backgroundColor");
+  }
 
-if (localStorage.getItem("fontColor") !== null) {
-  fontColor = localStorage.getItem("fontColor");
-}
+  if (localStorage.getItem("fontColor") !== null) {
+    fontColor = localStorage.getItem("fontColor");
+  }
+
+  // Update styles
+  document.body.style.backgroundColor = backgroundColor;
+  clock.style.color = fontColor;
+  document.body.style.color = fontColor;
+  switchBtn.style.color = fontColor;
+  settingsBtn.style.color = fontColor;
+
+  // Update switchBtn text
+  switchBtn.innerText = is24Hour ? "24" : "12";
+
+  // Update the time to reflect the changes immediately
+  updateTime();
+});
 
 function updateTime() {
   let date = new Date();
